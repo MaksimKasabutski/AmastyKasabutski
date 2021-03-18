@@ -19,6 +19,6 @@ class Index extends \Magento\Framework\App\Action\Action implements HttpGetActio
      */
     public function execute()
     {
-        die('It\'s works');
+        die('It works');
     }
 }
