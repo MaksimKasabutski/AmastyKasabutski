@@ -5,20 +5,16 @@
  */
 namespace Amasty\KrexsModule\Controller\Index;
 
-use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\Controller\ResultFactory;
 
-/**
- * Catalog index page controller.
- */
-class Index extends \Magento\Framework\App\Action\Action implements HttpGetActionInterface
+
+
+class Index extends Action
 {
-    /**
-     * Index action
-     *
-     * @return \Magento\Framework\Controller\Result\Redirect
-     */
+
     public function execute()
     {
-        die('It works');
+        return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }
 }
