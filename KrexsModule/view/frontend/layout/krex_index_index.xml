@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left"
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
             <container name="Amasty_krex">
                 <block class="Amasty\KrexsModule\Block\Index" name="Amasty_krex.hello"
                        template="Amasty_KrexsModule::index.phtml"/>
-                <block class="Amasty\KrexsModule\Block\Index" name="Amasty_krex.form"
+                <block class="Amasty\KrexsModule\Block\Form" name="Amasty_krex.form"
                        template="Amasty_KrexsModule::form.phtml">
+                    <arguments>
+                        <argument name="css_class" xsi:type="string">forms</argument>
+                    </arguments>
                     <block name="Amasty_krex.additional" template="Amasty_KrexsModule::additional.phtml"/>
                 </block>
             </container>
+
         </referenceContainer>
     </body>
     <block name="catalog.compare.sidebar" display="false"/>

@@ -1,12 +1,13 @@
 <?php
 /** @var Amasty\KrexsModule\Block\Index $block */
+$cssClass = $this->hasCssClass() ? ' ' . $this->getCssClass() : '';
 ?>
 
-<form action="">
+<form class="<?= $cssClass; ?>">
     <input type="text" name="sku">
     <input type="number" name="qty">
     <div>
-        <?= $block->getChildHtml()?>
+        <?= $block->getChildHtml() ?>
     </div>
     <input type="submit">
 </form>
