@@ -24,9 +24,7 @@ class Form extends Template
 
     public function getQtyFieldShowStatus(): bool
     {
-        if($this->scopeConfig->getValue('krexs_config/general/show_qty')) {
-            return true;
-        } else return false;
+        return $this->scopeConfig->isSetFlag('krexs_config/general/show_qty');
     }
 
     public function getQtyValue(): string
