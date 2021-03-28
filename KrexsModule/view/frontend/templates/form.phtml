@@ -1,15 +1,15 @@
 <?php
 /** @var Amasty\KrexsModule\Block\Form $block */
-$cssClass = $this->hasCssClass() ? ' ' . $this->getCssClass() : '';
+$cssClass = $block->hasCssClass() ? '' . $block->getCssClass() : '';
 ?>
 
-<form class="<?= $cssClass; ?>">
+<form action="http://magento.loc/krex/cart/add" method="post" class="<?= $cssClass ?>">
     <label for="sku">SKU:</label>
     <input type="text" name="sku" id="sku">
-    <?php if($block->getQtyFieldShowStatus()) {
-        echo '<label for="qty">Quantity:</label>
-              <input type="number" name="qty" id="qty" value="'. $block->getQtyValue() .'">';
-    } ?>
+    <?php if ($block->isShowQtyField()) : ?>
+        <label for="qty">Quantity:</label>
+        <input type="number" name="qty" id="qty" value="<?= $block->getQtyValue() ?>">
+    <?php endif ?>
     <div>
         <?= $block->getChildHtml() ?>
     </div>

@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="Amasty_KrexsModule" translate="label" sortOrder="10">
+        <tab id="Amasty_KrexsModule" translate="label" sortOrder="100000">
             <label>Amasty Krexs Module</label>
         </tab>
 
@@ -29,11 +30,14 @@
                 <field id="show_qty" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Show 'qty' field</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
                 </field>
 
                 <field id="qty_default_value" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>'qty' Default Value</label>
-                    <validate>integer</validate>
+                    <validate>validate-not-negative-number</validate>
                     <depends>
                         <field id="show_qty">1</field>
                     </depends>

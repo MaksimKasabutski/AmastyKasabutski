@@ -22,14 +22,13 @@ class Form extends Template
         parent::__construct($context, $data);
     }
 
-    public function getQtyFieldShowStatus(): bool
+    public function isShowQtyField(): bool
     {
         return $this->scopeConfig->isSetFlag('krexs_config/general/show_qty');
     }
 
     public function getQtyValue(): string
     {
-       $value = $this->scopeConfig->getValue('krexs_config/general/qty_default_value');
-       return $value ? $value : '';
+       return $this->scopeConfig->getValue('krexs_config/general/qty_default_value') ?: '';
     }
 }
