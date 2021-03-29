@@ -1,24 +1,50 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Amasty\KrexsModule\Controller\Index;
 
-use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\View\Page\Config;
+use Magento\Framework\View\Result\PageFactory;
 
-/**
- * Catalog index page controller.
- */
-class Index extends \Magento\Framework\App\Action\Action implements HttpGetActionInterface
+class Index extends Action
 {
     /**
-     * Index action
-     *
-     * @return \Magento\Framework\Controller\Result\Redirect
+     * @var ScopeConfigInterface
      */
+    private $scopeConfig;
+
+    /**
+     * @var Config
+     */
+    private $pageConfig;
+
+    /**
+     * @var PageFactory
+     */
+    protected $resultPageFactory;
+
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        Context $context,
+        Config $pageConfig,
+        PageFactory $resultPageFactory
+    )
+    {
+        $this->resultPageFactory = $resultPageFactory;
+        $this->pageConfig = $pageConfig;
+        $this->scopeConfig = $scopeConfig;
+        parent::__construct($context);
+    }
+
     public function execute()
     {
-        die('It works');
+        if ($this->scopeConfig->isSetFlag('krexs_config/general/enabled')) {
+            return $this->resultPageFactory->create();
+        } else {
+            $this->messageManager->addErrorMessage('Module \'KrexsModule\' is off.');
+            return $this->_redirect('defaultNoRoute');
+        }
     }
 }
