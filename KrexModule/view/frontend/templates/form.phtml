@@ -1,0 +1,33 @@
+<?php
+/** @var Amasty\KrexModule\Block\Form $block */
+$cssClass = $block->hasCssClass() ? $block->getCssClass() : '';
+?>
+
+<form action="http://magento.loc/krex/cart/add" method="post" class="<?= $cssClass ?>"
+      data-mage-init='{"validation": {"rules": {"sku": {"required":true}, "qty": {"required":true, "validate-greater-than-zero":true}}}}'
+      data-bind="scope: 'krexAutocomplete'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <?php if ($block->isShowQtyField()) : ?>
+        <label for="qty">Quantity:</label>
+        <input type="number" name="qty" id="qty" value="<?= $block->getQtyValue() ?>">
+    <?php endif ?>
+    <div>
+        <?= $block->getChildHtml() ?>
+    </div>
+    <input type="submit">
+</form>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "krexAutocomplete": {
+                        "component": "Amasty_KrexModule/js/koAutocomplete",
+                        "template": "Amasty_KrexModule/koAutocomplete"
+                    }
+                }
+            }
+        }
+    }
+</script>

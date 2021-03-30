@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Krex Module</title>
+        <css src="Amasty_KrexModule::css/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <container name="Amasty_krex">
+                <block class="Amasty\KrexModule\Block\Index" name="Amasty_krex.hello"
+                       template="Amasty_KrexModule::hello.phtml"/>
+                <block class="Amasty\KrexModule\Block\Form" name="Amasty_krex.form"
+                       template="Amasty_KrexModule::form.phtml">
+                    <arguments>
+                        <argument name="css_class" xsi:type="string">forms</argument>
+                    </arguments>
+                    <block name="Amasty_krex.additional" template="Amasty_KrexModule::additional.phtml"/>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>
