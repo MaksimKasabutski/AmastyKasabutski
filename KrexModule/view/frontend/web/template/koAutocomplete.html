@@ -1,0 +1,10 @@
+<label for="sku">SKU:</label>
+<input type="text" name="sku" id="sku" data-bind="textInput: searchText" autocomplete="off">
+<div>
+    <ul id="autocomplete-popup" data-bind="foreach: searchResult">
+        <li>
+            <span data-bind="text: sku"></span>
+            <span data-bind="text: title"></span>
+        </li>
+    </ul>
+</div>
