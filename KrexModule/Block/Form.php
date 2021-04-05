@@ -12,6 +12,8 @@ class Form extends Template
      */
     private $scopeConfig;
 
+    const FORM_ACTION = 'krex/cart/add';
+
     public function __construct(
         Template\Context $context,
         ScopeConfigInterface $scopeConfig,
@@ -29,6 +31,11 @@ class Form extends Template
 
     public function getQtyValue(): string
     {
-       return $this->scopeConfig->getValue('krex_config/general/qty_default_value') ?: '';
+        return $this->scopeConfig->getValue('krex_config/general/qty_default_value') ?: '';
+    }
+
+    public function getFormAction()
+    {
+        return self::FORM_ACTION;
     }
 }

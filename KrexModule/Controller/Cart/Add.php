@@ -3,10 +3,11 @@
 namespace Amasty\KrexModule\Controller\Cart;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Action\Context;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 class Add extends Action
 {
@@ -20,12 +21,23 @@ class Add extends Action
      */
     private $checkoutSession;
 
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
+    private $sku;
+
+    private $qty;
+
     public function __construct(
-        ProductRepositoryInterface $productRepository,
+        EventManager $eventManager,
         Context $context,
+        ProductRepositoryInterface $productRepository,
         CheckoutSession $checkoutSession
     )
     {
+        $this->eventManager = $eventManager;
         $this->checkoutSession = $checkoutSession;
         $this->productRepository = $productRepository;
         parent::__construct($context);
@@ -33,33 +45,50 @@ class Add extends Action
 
     public function execute()
     {
-        $params = $this->getRequest()->getParams();
-        $qty = $params['qty'];
-        $product = $this->initProduct();
+        $this->sku = $this->getRequest()->getParam('sku');
+        $this->qty = $this->getRequest()->getParam('qty');
+        $product = $this->initProduct($this->sku);
 
         if (!$product) {
-            $this->redirectBack();
+            return $this->redirectBack();
         }
 
-        if($product->getData('quantity_and_stock_status/qty') < $params['qty']) {
-            $this->messageManager->addErrorMessage('Only '. $product->getData('quantity_and_stock_status/qty') . ' units are available.');
-        } elseif (($product->getData())['type_id'] !== 'simple') {
+        $qtyStock = $product->getData('quantity_and_stock_status/qty');
+        $quote = $this->checkoutSession->getQuote();
+
+        if ($product->getTypeId() !== \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE) {
             $this->messageManager->addErrorMessage('This is not a simple product!');
+        } elseif ($this->getResultQty($quote) > $qtyStock) {
+            $this->messageManager->addErrorMessage(sprintf('Only %s units are available.', $qtyStock));
         } else {
-            $quote = $this->checkoutSession->getQuote();
             if (!$quote->getId()) {
                 $quote->save();
             }
-            $quote->addProduct($product, $qty);
-            $quote->save();
+            $quote->addProduct($product, $this->qty);
+            $quote->collectTotals()->save();
             $this->messageManager->addSuccessMessage('Product added successfully.');
+            $this->eventManager->dispatch(
+                'amasty_krexmodule_is_forsku',
+                ['sku' => $this->sku]
+            );
         }
-        $this->redirectBack();
+
+        return $this->redirectBack();
     }
 
-    protected function initProduct()
+    protected function getResultQty($quote)
     {
-        $productSku = $this->getRequest()->getParam('sku');
+        $cartQty = 0;
+        foreach ($quote->getAllItems() as $item) {
+            if ($item->getSku() === mb_strtoupper($this->sku)) {
+                $cartQty = $item->getQty();
+            }
+        }
+        return $cartQty ? $cartQty + $this->qty : $this->qty;
+    }
+
+    protected function initProduct($productSku)
+    {
         if ($productSku) {
             try {
                 return $this->productRepository->get($productSku);
@@ -68,12 +97,14 @@ class Add extends Action
                 return false;
             }
         }
+
         return false;
     }
 
     protected function redirectBack()
     {
-        $referer = $_SERVER['HTTP_REFERER'];
-        $this->_redirect($referer);
+        return $this->_redirect($this->_redirect->getRefererUrl());
     }
+
+
 }
