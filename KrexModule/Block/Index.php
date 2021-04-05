@@ -22,8 +22,13 @@ class Index extends Template
         parent::__construct($context, $data);
     }
 
-    function getConfigHello(): string
+    public function getConfigHello(): string
     {
         return $this->scopeConfig->getValue('krex_config/general/greeting_text');
+    }
+
+    public function addString()
+    {
+        return ' It works!';
     }
 }

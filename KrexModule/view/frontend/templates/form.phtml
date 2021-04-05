@@ -1,9 +1,10 @@
 <?php
 /** @var Amasty\KrexModule\Block\Form $block */
 $cssClass = $block->hasCssClass() ? $block->getCssClass() : '';
+
 ?>
 
-<form action="http://magento.loc/krex/cart/add" method="post" class="<?= $cssClass ?>"
+<form action="<?= $block->getFormAction() ?>" method="post" class="<?= $cssClass ?>"
       data-mage-init='{"validation": {"rules": {"sku": {"required":true}, "qty": {"required":true, "validate-greater-than-zero":true}}}}'
       data-bind="scope: 'krexAutocomplete'">
     <!-- ko template: getTemplate() --><!-- /ko -->
