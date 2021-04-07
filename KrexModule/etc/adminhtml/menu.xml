@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_KrexModule::menu"
+             title="Krex Module"
+             module="Amasty_KrexModule"
+             sortOrder="75"
+             resource="Amasty_KrexModule::menu"
+        />
+        <add id="Amasty_KrexModule::menu_blacklist"
+             title="Blacklist"
+             module="Amasty_KrexModule"
+             sortOrder="1"
+             resource="Amasty_KrexModule::menu_blacklist"
+             parent="Amasty_KrexModule::menu"
+             action="krexmodule/blacklist"
+        />
+    </menu>
+</config>

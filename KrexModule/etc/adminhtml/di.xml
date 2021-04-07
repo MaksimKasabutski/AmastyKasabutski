@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Amasty\KrexModule\Model\ResourceModel\Blacklist\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">amasty_krexmodule_blacklist</argument>
+            <argument name="resourceModel" xsi:type="string">Amasty\KrexModule\Model\ResourceModel\Blacklist</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="amasty_krexmodule_blacklist_listing_data_source" xsi:type="string">
+                    Amasty\KrexModule\Model\ResourceModel\Blacklist\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
