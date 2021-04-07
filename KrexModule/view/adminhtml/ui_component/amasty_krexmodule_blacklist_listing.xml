@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                amasty_krexmodule_blacklist_listing.amasty_krexmodule_blacklist_listing_data_source
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/create"/>
+                <class>primary</class>
+                <label translate="true">Add New Product</label>
+            </button>
+        </buttons>
+        <spinner>blacklist_columns</spinner>
+        <deps>
+            <dep>amasty_krexmodule_blacklist_listing.amasty_krexmodule_blacklist_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="amasty_krexmodule_blacklist_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="cacheRequests" xsi:type="boolean">false</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="amasty_krexmodule_blacklist_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>product_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <filters name="listing_filters"/>
+        <columnsControls name="columns_controls"/>
+        <bookmark name="bookmarks"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="blacklist_columns">
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>product_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="product_id" sortOrder="10">
+            <settings>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="sku" sortOrder="20">
+            <settings>
+                <label translate="true">SKU</label>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="qty" sortOrder="30">
+            <settings>
+                <label translate="true">QTY</label>
+                <filter>textRange</filter>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Amasty\KrexModule\Ui\Component\Listing\Column\BlacklistAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="viewUrlPath" xsi:type="string">krexmodule/blacklist/edit</item>
+                    <item name="urlEntityParamName" xsi:type="string">product_id</item>
+                    <item name="indexField" xsi:type="string">product_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+
+    </columns>
+</listing>
